@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  codeformer:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+      - ./weights:/app/weights
+    environment:
+      - PYTHONPATH=/app
+      - TORCH_HOME=/app/.torch
+    command: python inference_codeformer.py --help
+    
+  codeformer-api:
+    build: .
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+      - ./weights:/app/weights
+    environment:
+      - PYTHONPATH=/app
+      - TORCH_HOME=/app/.torch
+    # This would run an API server if implemented
+    # command: python api_server.py
+    
+  codeformer-web:
+    build: .
+    ports:
+      - "8080:8000"
+    volumes:
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+      - ./weights:/app/weights
+    environment:
+      - PYTHONPATH=/app
+      - TORCH_HOME=/app/.torch
+    # This would run a web interface if implemented
+    # command: python web_interface.py
+
+volumes:
+  inputs:
+  outputs:
+  weights:
